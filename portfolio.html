@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Full-stack Django & React Developer Portfolio - Nairobi, Kenya">
+  <title>Pascal Ouma | Django & React Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Advanced Color Palette with CSS Variables */
+    :root {
+      --primary: #5c2a75;
+      --primary-light: #773697;
+      --primary-dark: #3e1b52;
+      --secondary: #4a5568;
+      --accent: #2c974b;
+      --light: #f4f6f8;
+      --dark: #2d3748;
+      --muted: #718096;
+      --border: #e2e8f0;
+      --card-bg: #ffffff;
+      --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      --hover-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+      
+      /* Animation Variables */
+      --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-in-out-back: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    /* CSS Reset with Rare Properties */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+    
+    /* Rare CSS Property: backdrop-filter for glassmorphism effect */
+    body {
+      color: var(--dark);
+      line-height: 1.6;
+      background-color: var(--light);
+      overflow-x: hidden;
+      /* Rare CSS Property: scrollbar customization */
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) var(--light);
+    }
+    
+    /* Custom Scrollbar for Webkit Browsers */
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    body::-webkit-scrollbar-track {
+      background: var(--light);
+    }
+    
+    body::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 20px;
+    }
+    
+    /* Header with Blur Effect */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s var(--ease-out-quad);
+    }
+    
+    header.scrolled {
+      padding: 12px 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .brand {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Rare CSS Property: text-decoration-skip-ink */
+    .brand::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.5s var(--ease-out-quad);
+    }
+    
+    .brand:hover::after {
+      width: 100%;
+    }
+    
+    nav a {
+      margin-left: 24px;
+      text-decoration: none;
+      color: var(--secondary);
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+      text-decoration-skip-ink: none;
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s var(--ease-out-quad);
+    }
+    
+    nav a:hover {
+      color: var(--primary);
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    
+    /* Hero Section with Parallax Background */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+      opacity: 0.1;
+      z-index: -1;
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      color: var(--dark);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s var(--ease-out-quad) 0.2s forwards;
+    }
+    
+    .lead {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 1.125rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s var(--ease-out-quad) 0.4s forwards;
+    }
+    
+    .cta {
+      display: flex;
+      gap: 16px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s var(--ease-out-quad) 0.6s forwards;
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .cta a {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s var(--ease-out-quad);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn {
+      background: var(--primary);
+      color: #fff;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dark);
+    }
+    
+    .ghost:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .profile-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: translateX(30px);
+      animation: fadeInRight 1s var(--ease-out-quad) 0.8s forwards;
+    }
+    
+    @keyframes fadeInRight {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .profile-image img, .image-placeholder {
+      width: 100%;
+      max-width: 400px;
+      height: 400px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.5s var(--ease-out-quad);
+      object-fit: cover;
+    }
+    
+    .profile-image img:hover, .image-placeholder:hover {
+      transform: scale(1.02) rotate(1deg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .image-placeholder {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .image-placeholder::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    .image-placeholder i {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+    
+    .image-placeholder p {
+      z-index: 1;
+    }
+    
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+    
+    /* Rare CSS Property: mix-blend-mode for section dividers */
+    .section-divider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to bottom right, transparent 49%, var(--primary) 50%);
+      mix-blend-mode: multiply;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    
+    h2 {
+      margin-bottom: 32px;
+      color: var(--dark);
+      font-size: 2rem;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s var(--ease-out-quad);
+    }
+    
+    h2.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.5s var(--ease-out-quad) 0.3s;
+    }
+    
+    h2.visible::after {
+      transform: scaleX(1);
+    }
+    
+    /* Service Cards with Advanced Animations */
+    .service-card-container {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(300px, 1fr));
+      gap: 24px;
+      padding-bottom: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      /* Rare CSS Property: scrollbar-width for Firefox */
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) transparent;
+    }
+    
+    .service-card-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .service-card-container::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 10px;
+    }
+    
+    .service-card-container::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 10px;
+    }
+    
+    .service-card {
+      scroll-snap-align: start;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.4s var(--ease-out-quad);
+      flex-shrink: 0;
+      min-width: 320px;
+      border-top: 5px solid var(--primary-light);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(to bottom, var(--primary-light), transparent);
+      transition: height 0.4s var(--ease-out-quad);
+      z-index: 0;
+    }
+    
+    .service-card:hover::before {
+      height: 6px;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .service-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .service-card p {
+      font-size: 0.95rem;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      min-height: 45px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .price-range {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Projects Grid with Staggered Animation */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.4s var(--ease-out-quad);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.7s;
+    }
+    
+    .card:hover::before {
+      left: 100%;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .card h3 {
+      margin-bottom: 12px;
+      color: var(--dark);
+    }
+    
+    .tags {
+      margin-top: 16px;
+    }
+    
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #e6e0f2;
+      margin-right: 8px;
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 500;
+      transition: all 0.3s var(--ease-out-quad);
+    }
+    
+    .tag:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Contact Section with Interactive Elements */
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    
+    .contact-item {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      align-items: center;
+      transition: all 0.4s var(--ease-out-quad);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .contact-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .contact-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .contact-item i {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-right: 16px;
+      transition: transform 0.3s var(--ease-in-out-back);
+    }
+    
+    .contact-item:hover i {
+      transform: scale(1.2);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--muted);
+      font-size: 14px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent), var(--primary));
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: expandLine 2s var(--ease-out-quad) 0.5s forwards;
+    }
+    
+    @keyframes expandLine {
+      to {
+        transform: scaleX(1);
+      }
+    }
+    
+    a {
+      color: var(--primary);
+      transition: color 0.2s;
+      position: relative;
+    }
+    
+    a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.3s var(--ease-out-quad);
+    }
+    
+    a:hover::after {
+      width: 100%;
+    }
+    
+    a:hover {
+      color: var(--primary-dark);
+    }
+    
+    /* Floating Particles Background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: var(--primary-light);
+      border-radius: 50%;
+      opacity: 0.1;
+      animation: floatParticle 15s infinite linear;
+    }
+    
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.1;
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .service-card-container {
+        grid-template-columns: repeat(9, minmax(300px, 1fr));
+        justify-content: start;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 48px 0;
+      }
+      
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .cta {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .cta a {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+      }
+      
+      .service-card-container {
+        grid-template-columns: repeat(9, minmax(85vw, 1fr));
+        gap: 16px;
+      }
+      
+      .service-card {
+        min-width: 85vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <header id="header">
+    <div class="brand">Pascal Ouma — Django & React Developer</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" style="display: none;">☰</button>
+  </header>
+  
+  <main>
+    <section class="hero">
+<div class="hero-content">
+  <h1>Hi 👋 — I build & fix <span style="color: var(--primary);">Django + React</span> apps.</h1>
+  <p class="lead">Fast, affordable, and Nairobi-based. I help clinics, shops, and small businesses go online or solve urgent bugs.</p>
+  
+  <p class="lead" style="font-style: italic; font-weight: 500; color: var(--primary-dark);">
+    My specialty is taking **mediocre systems and making them brilliant**. If your existing application is slow, clunky, or simply visually unappealing, I transform it into an intuitive, polished, and professional product that users will love.
+  </p>
+  
+  <div class="cta">
+    <a href="https://wa.me/254712154175" class="btn">Message me on WhatsApp</a>
+    <a href="mailto:pascalouma54@gmail.com" class="btn ghost">Email me</a>
+  </div>
+</div>
+      
+      <div class="profile-image">
+        <!-- Using a placeholder image from Picsum -->
+        <img src="me.jpg" alt="Pascal Ouma - Django & React Developer">
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="services">
+      <h2>Software & Development Services</h2>
+      
+      <div class="service-card-container">
+        <div class="service-card">
+          <h3>Urgent Bug Fixes</h3>
+          <p>Fix critical React or Django bugs and production issues with same-day turnaround.</p>
+          <div class="price-range">from <strong>KSh 2,500</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Small Business Websites</h3>
+          <p>Professional, mobile-responsive websites for startups and local businesses.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>POS & Inventory Systems</h3>
+          <p>Custom Appointment, billing, and inventory management systems for retail or service industry.</p>
+          <div class="price-range">from <strong>KSh 15,000</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>HRM Systems (HR)</h3>
+          <p>Custom Human Resource Management (HRM) software for payroll, leave, and performance tracking.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong> (Basic)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Clinical Outpatient EMR</h3>
+          <p>Specialized management systems for clinics, covering patient records and prescriptions.</p>
+          <div class="price-range">from <strong>KSh 60,000</strong> (Custom)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Rental Management</h3>
+          <p>Software for landlords or agencies to track tenants, payments, and property maintenance.</p>
+          <div class="price-range">from <strong>KSh 5,000/month</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>Slaughterhouse Systems</h3>
+          <p>Full lifecycle management, controlling breeders, buyers, sellers, and dynamic pricing.</p>
+          <div class="price-range">from <strong>KSh 50,000</strong> (Custom)</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>API Integration</h3>
+          <p>Expert development and integration of APIs, including M-Pesa/payment gateways.</p>
+          <div class="price-range">from <strong>KSh 10,000</strong> per integration</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Website Maintenance</h3>
+          <p>Ongoing maintenance, optimization, and security updates for Django/React applications.</p>
+          <div class="price-range">from <strong>KSh 2,500/month</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Clinic Appointment & Billing</h3>
+          <p>Django backend + React frontend. Appointment booking, prescriptions, and billing dashboard.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Billing</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Inventory & Procurement</h3>
+          <p>Simple inventory management with stock alerts and procurement requests.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Inventory</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Small Business Website</h3>
+          <p>Static site with contact form and services page — fast delivery for local businesses.</p>
+          <div class="tags">
+            <span class="tag">Website</span>
+            <span class="tag">Contact Form</span>
+            <span class="tag">Responsive</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i>📱</i>
+          <div>
+            <h3>WhatsApp</h3>
+            <p><a href="https://wa.me/254712154175">+254 712154175</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>✉️</i>
+          <div>
+            <h3>Email</h3>
+            <p><a href="mailto:pascalouma54@gmail.com">pascalouma54@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>💻</i>
+          <div>
+            <h3>GitHub</h3>
+            <p><a href="https://github.com/pascal-owilly">github.com/pascal-owilly</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>Built by Pascal Ouma • Available for hire — DM on WhatsApp</p>
+  </footer>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 10 + 5;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Scroll animations
+    function handleScrollAnimations() {
+      const header = document.getElementById('header');
+      const sections = document.querySelectorAll('section');
+      const serviceCards = document.querySelectorAll('.service-card');
+      const projectCards = document.querySelectorAll('.card');
+      const contactItems = document.querySelectorAll('.contact-item');
+      const headings = document.querySelectorAll('h2');
+      
+      // Header scroll effect
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      // Section animations
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        const sectionBottom = section.getBoundingClientRect().bottom;
+        
+        if (sectionTop < window.innerHeight * 0.85 && sectionBottom > 0) {
+          const heading = section.querySelector('h2');
+          if (heading && !heading.classList.contains('visible')) {
+            heading.classList.add('visible');
+          }
+          
+          // Animate service cards
+          if (section.id === 'services') {
+            serviceCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('visible');
+              }, index * 100);
+            });
+          }
+          
+          // Animate project cards
+          if (section.id === 'projects') {
+            projectCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('visible');
+              }, index * 150);
+            });
+          }
+          
+          // Animate contact items
+          if (section.id === 'contact') {
+            contactItems.forEach((item, index) => {
+              setTimeout(() => {
+                item.classList.add('visible');
+              }, index * 200);
+            });
+          }
+        }
+      });
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      window.addEventListener('scroll', handleScrollAnimations);
+      handleScrollAnimations(); // Run once on load
+    });
+  </script>
+</body>
+</html>
