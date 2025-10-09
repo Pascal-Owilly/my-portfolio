@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Management Project Showcase | Multi-Role Property Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        /* --- Adopted Variables from base theme --- */
+        :root {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --surface-hover: #2a2a2a;
+            --text-light: #f5f5f5;
+            --text-medium: #b0b0b0;
+            --primary: #5eff5e; /* Vibrant Neon Green */
+            --primary-dark: #33cc33;
+            --border-color: #333333;
+            --spacing-medium: 1.5rem;
+        }
+
+        /* --- Base & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* --- Typography & Headings --- */
+        h1 {
+            font-size: 3.2rem;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(94, 255, 94, 0.2);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--text-light);
+            padding-bottom: 0.5rem;
+            margin-bottom: var(--spacing-medium);
+            border-bottom: 2px solid var(--primary-dark);
+            letter-spacing: 0.05em;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p {
+            color: var(--text-medium);
+            margin-bottom: var(--spacing-medium);
+        }
+
+        .lead {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        /* --- Layout & Sections --- */
+        header {
+            background-color: var(--surface-hover);
+            padding: 1.5rem 40px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .project-showcase {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* --- CAROUSEL STYLES (Reused) --- */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            margin: 2rem 0;
+            background-color: var(--surface);
+            border-radius: 12px;
+            border: 2px solid var(--primary-dark);
+            box-shadow: 0 0 20px rgba(94, 255, 94, 0.15);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background-color: var(--surface);
+        }
+
+        .slide-content h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .slide-content p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            max-width: 700px; 
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s, color 0.3s;
+            font-size: 1.5rem;
+            border-radius: 50%;
+        }
+
+        .carousel-control:hover {
+            background: var(--primary);
+            color: var(--background);
+        }
+
+        #prevBtn { left: 10px; }
+        #nextBtn { right: 10px; }
+        
+        /* Indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            background-color: var(--surface-hover);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .indicator {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: var(--border-color);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .indicator.active {
+            background-color: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--surface);
+            padding: 25px;
+            border-radius: 10px;
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h4 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">Back to Portfolio</a>
+    </header>
+
+    <main class="project-showcase">
+        <section class="hero">
+            <h1>Rental Management Platform: Landlord, Tenant, & Caretaker</h1>
+            <p class="lead">A centralized system designed to streamline property operations, from automated rent collection and maintenance requests to financial reporting for landlords.</p>
+        </section>
+
+        <section class="process-carousel" id="userWorkflows">
+            <h2>Role-Specific Portals & Key Functions</h2>
+            <p style="text-align: center;">A visual tour of the primary dashboards for each user type.</p>
+            
+            <div class="carousel-container" id="workflowContainer">
+                <div class="carousel-track" id="workflowTrack">
+                    
+                    <div class="carousel-slide" data-slide="1">
+                        <div class="slide-content">
+                            <h3>1. Tenant Portal</h3>
+                            <p>Empowering tenants with self-service tools for rent payment, detailed ledger viewing, and **fast maintenance reporting**.</p>
+                            <img src="https://via.placeholder.com/800x450/1e1e1e/5eff5e?text=Tenant+Dashboard%3A+Payments+and+Requests" alt="Tenant Dashboard Screenshot">
+                            <ul>
+                                <li>**Digital Rent Payment:** Instant and tracked payment via integrated mobile wallets/banks.</li>
+                                <li>**Maintenance Submission:** Submit tickets with photos/videos directly to the caretaker.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="carousel-slide" data-slide="2">
+                        <div class="slide-content">
+                            <h3>2. Caretaker Management Dashboard</h3>
+                            <p>The central hub for managing day-to-day operations, maintenance tasks, and communication with both tenants and landlords.</p>
+                            <img src="https://via.placeholder.com/800x450/1e1e1e/5eff5e?text=Caretaker+Maintenance+and+Unit+Status" alt="Caretaker Dashboard Screenshot">
+                            <ul>
+                                <li>**Task Triage:** Receive, prioritize, and assign maintenance jobs to vendors.</li>
+                                <li>**Unit Status:** Track occupancy, utility meter readings, and move-in/move-out checklists.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="carousel-slide" data-slide="3">
+                        <div class="slide-content">
+                            <h3>3. Landlord/Owner Financial & Oversight Portal</h3>
+                            <p>Providing the owner with **complete visibility** into property performance, cash flow, and maintenance costs.</p>
+                            <img src="https://via.placeholder.com/800x450/1e1e1e/5eff5e?text=Landlord+Financial+Reporting+Dashboard" alt="Landlord Dashboard Screenshot">
+                            <ul>
+                                <li>**Financial Reports:** Automated income statements, expense tracking, and vacancy rate analysis.</li>
+                                <li>**Real-Time Audit:** View maintenance history and status, including caretaker performance metrics.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <button class="carousel-control" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-control" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-indicators" id="indicators">
+                    </div>
+            </div>
+        </section>
+        
+        <section class="feature-deep-dive">
+            <h2>System Automation & Key Features</h2>
+            <div class="feature-grid">
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-invoice-dollar highlight"></i> Automated Billing & Payments</h4>
+                    <p>Generates invoices automatically on the due date. Supports **e-receipts** and integrates with local payment systems for instant reconciliation and late fee calculation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-tools highlight"></i> Maintenance Lifecycle Management</h4>
+                    <p>Tickets flow directly from **Tenant $\rightarrow$ Caretaker $\rightarrow$ Vendor**. Caretakers can update status, log completion time, and attach vendor invoices for landlord approval.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-chart-line highlight"></i> Financial Audit & Reporting</h4>
+                    <p>Landlord portal provides **end-to-end transparency**. Reports track rent collection efficiency, maintenance spending vs. budget, and tax-ready financial summaries.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><i class="fas fa-envelope-open-text highlight"></i> Automated Communication</h4>
+                    <p>System sends automated **rent reminders** and late notices to tenants and task alerts to caretakers, reducing the need for manual follow-up.</p>
+                </div>
+                
+            </div>
+        </section>
+
+    </main>
+    
+    <footer></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('workflowTrack');
+            const slides = Array.from(track.children);
+            const nextButton = document.getElementById('nextBtn');
+            const prevButton = document.getElementById('prevBtn');
+            const indicatorsContainer = document.getElementById('indicators');
+            
+            if (slides.length === 0) return;
+
+            let slideWidth = slides[0].getBoundingClientRect().width;
+            let currentSlide = 0;
+
+            // --- 1. Set up indicators ---
+            slides.forEach((slide, index) => {
+                const indicator = document.createElement('span');
+                indicator.classList.add('indicator');
+                indicator.addEventListener('click', () => moveToSlide(index));
+                indicatorsContainer.appendChild(indicator);
+            });
+
+            const indicators = Array.from(indicatorsContainer.children);
+
+            // --- 2. Update slide width on resize ---
+            const updateSlideWidth = () => {
+                // Ensure the width calculation is done correctly on load/resize
+                slideWidth = slides[0].getBoundingClientRect().width;
+                track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            };
+            window.addEventListener('resize', updateSlideWidth);
+
+            // --- 3. Function to move to a specific slide ---
+            const moveToSlide = (targetIndex) => {
+                track.style.transform = `translateX(-${targetIndex * slideWidth}px)`;
+                currentSlide = targetIndex;
+                updateControls();
+            };
+
+            // --- 4. Function to update buttons and indicators ---
+            const updateControls = () => {
+                // Update Indicators
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                indicators[currentSlide].classList.add('active');
+
+                // Update Buttons visibility/opacity
+                prevButton.style.opacity = currentSlide === 0 ? 0.3 : 1;
+                nextButton.style.opacity = currentSlide === slides.length - 1 ? 0.3 : 1;
+                
+                prevButton.disabled = currentSlide === 0;
+                nextButton.disabled = currentSlide === slides.length - 1;
+            };
+
+            // --- 5. Button Listeners ---
+            nextButton.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    moveToSlide(currentSlide + 1);
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    moveToSlide(currentSlide - 1);
+                }
+            });
+
+            // Initial setup
+            updateSlideWidth(); 
+            moveToSlide(0); // Start at the first slide
+        });
+    </script>
+</body>
+</html>

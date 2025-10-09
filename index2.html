@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Full-stack Django & React Developer Portfolio - Nairobi, Kenya">
+  <title>Pascal Ouma | Django & React Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #ffffff;
+      --bg-light: #f8fafc;
+      --bg-dark: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --border-radius: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* Parallax Background */
+    .parallax-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
+    }
+
+    .parallax-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .layer-1 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="%232563eb" points="0,1000 1000,0 1000,1000"/></svg>') no-repeat center center;
+      background-size: cover;
+    }
+
+    .layer-2 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><circle fill="%237c3aed" cx="200" cy="200" r="150"/></svg>') no-repeat 20% 20%;
+      background-size: auto;
+    }
+
+    .layer-3 {
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.04"><rect fill="%2306b6d4" x="700" y="700" width="200" height="200" rx="20"/></svg>') no-repeat 80% 80%;
+      background-size: auto;
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.15;
+      }
+      90% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header.scrolled {
+      padding: 1rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    /* Main Content */
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      padding: 6rem 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4rem;
+      padding-top: 8rem;
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .hero .lead {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero .lead:last-of-type {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--primary-dark);
+      border-left: 4px solid var(--primary);
+      padding-left: 1rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+    }
+
+    .cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease 0.6s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn.ghost:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .profile-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 50%;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: fadeInScale 1s ease 0.5s forwards;
+    }
+
+    /* Section Headers */
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: var(--transition);
+    }
+
+    h2.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Section Dividers */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), transparent);
+      margin: 2rem 0;
+    }
+
+    /* Services Section */
+    #services {
+      background-color: var(--bg-light);
+      border-radius: 30px;
+      margin: 4rem 5%;
+      padding: 5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .service-card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .service-card p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .price-range {
+      font-weight: 500;
+      color: var(--primary-dark);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 1rem;
+    }
+
+    /* Testimonials Section */
+    #testimonials {
+      background-color: var(--bg-light);
+      border-radius: 30px;
+      margin: 4rem 5%;
+      padding: 5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .testimonials-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .testimonial-slider {
+      display: flex;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+
+    .testimonial-card {
+      flex: 0 0 100%;
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @media (min-width: 768px) {
+      .testimonial-card {
+        flex: 0 0 calc(50% - 1rem);
+      }
+    }
+
+    .testimonial-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .testimonial-content {
+      font-style: italic;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .testimonial-content::before {
+      content: """;
+      font-size: 4rem;
+      color: var(--primary);
+      opacity: 0.2;
+      position: absolute;
+      top: -1.5rem;
+      left: -1rem;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .author-info h4 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .author-info p {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+
+    .testimonial-rating {
+      color: #fbbf24;
+      margin-top: 0.5rem;
+    }
+
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .slider-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .slider-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1);
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-light);
+      opacity: 0.3;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dot.active {
+      opacity: 1;
+      background: var(--primary);
+    }
+
+    /* Projects Section */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .card p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Contact Section */
+    #contact {
+      background-color: var(--bg-light);
+      border-radius: 30px;
+      margin: 4rem 5%;
+      padding: 5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .contact-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .contact-item i {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .contact-item h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-item p {
+      color: var(--text-light);
+    }
+
+    .contact-item a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .contact-item a:hover {
+      color: var(--secondary);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 5%;
+      color: var(--text-light);
+      font-size: 0.875rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 10rem;
+      }
+
+      .hero h1 {
+        font-size: 2.75rem;
+      }
+
+      .cta {
+        justify-content: center;
+      }
+
+      #services, #testimonials, #contact {
+        margin: 2rem;
+        padding: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem 5%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .hero .lead {
+        font-size: 1.125rem;
+      }
+
+      .cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+      }
+
+      #services, #testimonials, #contact {
+        margin: 1rem;
+        padding: 2rem;
+      }
+
+      .service-card-container, .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .testimonial-card {
+        flex: 0 0 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      section {
+        padding: 4rem 5%;
+      }
+
+      .hero h1 {
+        font-size: 1.875rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .testimonial-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Parallax Background -->
+  <div class="parallax-bg">
+    <div class="parallax-layer layer-1" data-speed="0.1"></div>
+    <div class="parallax-layer layer-2" data-speed="0.05"></div>
+    <div class="parallax-layer layer-3" data-speed="0.08"></div>
+  </div>
+  
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <header id="header">
+    <div class="brand">Pascal Ouma — Django & React Developer</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" style="display: none;">☰</button>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Hi 👋 — I build & fix <span style="color: var(--primary);">Django + React</span> apps.</h1>
+        <p class="lead">Fast, affordable, and Nairobi-based. I help clinics, shops, and small businesses go online or solve urgent bugs.</p>
+        
+        <p class="lead" style="font-style: italic; font-weight: 500; color: var(--primary-dark);">
+          My specialty is taking <strong>mediocre systems and making them brilliant</strong>. If your existing application is slow, clunky, or simply visually unappealing, I transform it into an intuitive, polished, and professional product that users will love.
+        </p>
+        
+        <div class="cta">
+          <a href="https://wa.me/254712154175" class="btn">Message me on WhatsApp</a>
+          <a href="mailto:pascalouma54@gmail.com" class="btn ghost">Email me</a>
+        </div>
+      </div>
+      
+      <div class="profile-image">
+        <!-- Using a placeholder image from Picsum -->
+        <img src="me.jpg" alt="Pascal Ouma - Django & React Developer">
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="services">
+      <h2>Software & Development Services</h2>
+      
+      <div class="service-card-container">
+        <div class="service-card">
+          <h3>Urgent Bug Fixes</h3>
+          <p>Fix critical React or Django bugs and production issues with same-day turnaround.</p>
+          <div class="price-range">from <strong>KSh 2,500</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Small Business Websites</h3>
+          <p>Professional, mobile-responsive websites for startups and local businesses.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>POS & Inventory Systems</h3>
+          <p>Custom Appointment, billing, and inventory management systems for retail or service industry.</p>
+          <div class="price-range">from <strong>KSh 15,000</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>HRM Systems (HR)</h3>
+          <p>Custom Human Resource Management (HRM) software for payroll, leave, and performance tracking.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong> (Basic)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Clinical Outpatient EMR</h3>
+          <p>Specialized management systems for clinics, covering patient records and prescriptions.</p>
+          <div class="price-range">from <strong>KSh 60,000</strong> (Custom)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Rental Management</h3>
+          <p>Software for landlords or agencies to track tenants, payments, and property maintenance.</p>
+          <div class="price-range">from <strong>KSh 5,000/month</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>Slaughterhouse Systems</h3>
+          <p>Full lifecycle management, controlling breeders, buyers, sellers, and dynamic pricing.</p>
+          <div class="price-range">from <strong>KSh 50,000</strong> (Custom)</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>API Integration</h3>
+          <p>Expert development and integration of APIs, including M-Pesa/payment gateways.</p>
+          <div class="price-range">from <strong>KSh 10,000</strong> per integration</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Website Maintenance</h3>
+          <p>Ongoing maintenance, optimization, and security updates for Django/React applications.</p>
+          <div class="price-range">from <strong>KSh 2,500/month</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+      <h2>Client Testimonials</h2>
+      
+      <div class="testimonials-container">
+        <div class="testimonial-slider" id="testimonialSlider">
+          <!-- Story-focused testimonial -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              "I was struggling with a critical bug in my clinic management system that was preventing patient check-ins. Pascal responded to my WhatsApp message within minutes, diagnosed the issue remotely, and had it fixed in under 3 hours. His quick response saved us from a day of chaos and lost revenue."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">DK</div>
+              <div class="author-info">
+                <h4>Dr. Kamau</h4>
+                <p>Clinic Owner, Nairobi</p>
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Persistence testimonial -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              "Pascal's persistence is remarkable. We had a complex inventory system that needed integration with M-Pesa. When we hit unexpected API limitations, he didn't give up. He worked late into the night, found a creative solution, and delivered beyond our expectations. His dedication to solving problems is exceptional."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">SN</div>
+              <div class="author-info">
+                <h4>Sarah N.</h4>
+                <p>Retail Business Owner</p>
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Inspiring testimonial -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              "Working with Pascal transformed not just our software, but our entire business operations. He took our clunky, outdated system and turned it into something beautiful and intuitive. His work inspired our team to think differently about technology and how it can empower small businesses like ours."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">JM</div>
+              <div class="author-info">
+                <h4>James M.</h4>
+                <p>Small Business Owner</p>
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Story-focused testimonial -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              "I found Pascal through a recommendation when my e-commerce site crashed during a peak sales period. He not only fixed the immediate issue but also identified underlying problems we didn't know existed. His proactive approach and clear communication throughout the process made a stressful situation manageable."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">LW</div>
+              <div class="author-info">
+                <h4>Lucy W.</h4>
+                <p>Online Store Owner</p>
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Persistence testimonial -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              "What impressed me most was Pascal's commitment to quality. He could have delivered a 'good enough' solution for our HR system, but he kept refining it until it was perfect. His attention to detail and willingness to go the extra mile is rare. I've recommended him to three other business owners already."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">PO</div>
+              <div class="author-info">
+                <h4>Peter O.</h4>
+                <p>Startup Founder</p>
+                <div class="testimonial-rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="slider-controls">
+          <button class="slider-btn" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="slider-btn" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <div class="slider-dots" id="sliderDots">
+          <!-- Dots will be generated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Clinic Appointment & Billing</h3>
+          <p>Django backend + React frontend. Appointment booking, prescriptions, and billing dashboard.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Billing</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Inventory & Procurement</h3>
+          <p>Simple inventory management with stock alerts and procurement requests.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Inventory</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Small Business Website</h3>
+          <p>Static site with contact form and services page — fast delivery for local businesses.</p>
+          <div class="tags">
+            <span class="tag">Website</span>
+            <span class="tag">Contact Form</span>
+            <span class="tag">Responsive</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i>📱</i>
+          <div>
+            <h3>WhatsApp</h3>
+            <p><a href="https://wa.me/254712154175">+254 712154175</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>✉️</i>
+          <div>
+            <h3>Email</h3>
+            <p><a href="mailto:pascalouma54@gmail.com">pascalouma54@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>💻</i>
+          <div>
+            <h3>GitHub</h3>
+            <p><a href="https://github.com/pascal-owilly">github.com/pascal-owilly</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>Built by Pascal Ouma • Available for hire — DM on WhatsApp</p>
+  </footer>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random

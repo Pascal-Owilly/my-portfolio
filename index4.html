@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Full-stack Django & React Developer Portfolio - Nairobi, Kenya">
+  <title>Pascal Ouma | Django & React Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ---------------------------------- */
+    /* 1. Variables & Global Styles       */
+    /* ---------------------------------- */
+    :root {
+      /* Colors */
+      --background-dark: #0f111a;
+      --surface-dark: #1a1c25;
+      --primary: #5edb9c; /* Green for key highlights */
+      --primary-dark: #37b779;
+      --text-light: #e0e1e6;
+      --text-medium: #b4b6c3;
+      --border-color: rgba(255, 255, 255, 0.08);
+      
+      /* Spacing */
+      --padding-section: 120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scroll from particles */
+    }
+
+    main {
+      padding-top: 80px; /* Space for fixed header */
+    }
+
+    section {
+      padding: var(--padding-section) 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 3vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 60px;
+      text-align: center;
+      position: relative;
+      color: var(--text-light);
+      opacity: 0; /* Animation target */
+      transform: translateY(30px); /* Animation target */
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    h2.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: var(--text-medium);
+      margin-bottom: 15px;
+    }
+
+    .section-divider {
+      height: 1px;
+      width: 60%;
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--border-color);
+    }
+
+
+    /* ---------------------------------- */
+    /* 2. Particle Background             */
+    /* ---------------------------------- */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      background: radial-gradient(circle at top left, rgba(94, 219, 156, 0.1) 0%, transparent 40%),
+                  radial-gradient(circle at bottom right, rgba(26, 28, 37, 0.5) 0%, transparent 60%);
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float-up 15s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ---------------------------------- */
+    /* 3. Header & Navigation             */
+    /* ---------------------------------- */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background: transparent;
+      backdrop-filter: blur(0px);
+      transition: background 0.3s ease, padding 0.3s ease, border-bottom 0.3s ease, backdrop-filter 0.3s ease;
+      z-index: 1000;
+    }
+
+    #header.scrolled {
+      background: rgba(15, 17, 26, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 5%;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-light);
+    }
+
+    nav a {
+      margin-left: 30px;
+      font-weight: 500;
+      color: var(--text-medium);
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ---------------------------------- */
+    /* 4. Buttons (CTA)                   */
+    /* ---------------------------------- */
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .cta .btn {
+      background-color: var(--primary);
+      color: var(--background-dark);
+      margin-right: 15px;
+    }
+
+    .cta .btn:hover {
+      background-color: var(--primary-dark);
+      box-shadow: 0 5px 20px rgba(94, 219, 156, 0.4);
+    }
+
+    .btn.ghost {
+      background-color: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn.ghost:hover {
+      background-color: rgba(94, 219, 156, 0.1);
+      box-shadow: none;
+    }
+
+    /* ---------------------------------- */
+    /* 5. Hero Section (Parallax)         */
+    /* ---------------------------------- */
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding-top: 100px;
+      padding-bottom: 100px;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      z-index: 10;
+    }
+
+    .hero-content h1, .hero-content p {
+        /* Initial animation for on-load */
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fade-in-up 0.8s ease forwards;
+    }
+    .hero-content h1 { animation-delay: 0.2s; }
+    .hero-content .lead:nth-child(2) { animation-delay: 0.4s; }
+    .hero-content .lead:nth-child(3) { animation-delay: 0.6s; }
+    .hero-content .cta { 
+        animation: fade-in-up 0.8s ease forwards;
+        animation-delay: 0.8s;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    @keyframes fade-in-up {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-image {
+      flex-shrink: 0;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 10px rgba(94, 219, 156, 0.2);
+      transform: translateZ(0); /* Fix for image to be on its own layer for smooth transition */
+      will-change: transform;
+      transition: transform 0.1s linear; /* Smooth parallax effect */
+      background: var(--surface-dark); /* Fallback */
+      z-index: 5;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(10%); /* Subtle professional filter */
+    }
+
+    /* JavaScript for Parallax effect */
+    .hero-content.parallax-move {
+        transform: translateY(var(--parallax-y, 0));
+    }
+
+    .profile-image.parallax-move {
+        transform: translateY(var(--parallax-y, 0)) scale(1.02);
+    }
+
+    /* ---------------------------------- */
+    /* 6. Services & Cards                */
+    /* ---------------------------------- */
+    .service-card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background-color: var(--surface-dark);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      /* Animation target */
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(94, 219, 156, 0.15);
+      border-color: var(--primary-dark);
+    }
+
+    .service-card h3 {
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .service-card p {
+      color: var(--text-medium);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .price-range {
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .price-range strong {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    /* ---------------------------------- */
+    /* 7. Projects (Grid)                 */
+    /* ---------------------------------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background-color: var(--surface-dark);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      
+      /* Animation target */
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .card p {
+      color: var(--text-medium);
+      font-size: 0.95rem;
+      min-height: 40px;
+    }
+
+    .tags {
+      margin-top: 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      background-color: rgba(94, 219, 156, 0.15);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* ---------------------------------- */
+    /* 8. Contact Section                 */
+    /* ---------------------------------- */
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background-color: var(--surface-dark);
+      padding: 20px 30px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      width: 350px;
+      transition: transform 0.3s ease;
+      
+      /* Animation target */
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .contact-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-item i {
+      font-style: normal;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--primary);
+    }
+
+    .contact-item h3 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .contact-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .contact-item a {
+      color: var(--text-medium);
+    }
+
+    .contact-item a:hover {
+      color: var(--primary);
+    }
+
+    /* ---------------------------------- */
+    /* 9. Footer                          */
+    /* ---------------------------------- */
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid var(--border-color);
+      margin-top: 60px;
+      color: var(--text-medium);
+      font-size: 0.9rem;
+    }
+
+    /* ---------------------------------- */
+    /* 10. Media Queries (Responsiveness) */
+    /* ---------------------------------- */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        min-height: auto;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      
+      .cta a {
+        margin: 0;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .profile-image {
+        margin-bottom: 40px;
+      }
+
+      nav {
+        display: none; /* Hide for simple mobile layout */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-image {
+        width: 250px;
+        height: 250px;
+      }
+
+      section {
+        padding: 80px 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <header id="header">
+    <div class="brand">Pascal Ouma — **Django & React Developer**</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" style="display: none;">☰</button>
+  </header>
+  
+  <main>
+    <section class="hero" id="hero-section">
+      <div class="hero-content" id="hero-content">
+        <h1>Hi 👋 — I build & fix <span style="color: var(--primary);">Django + React</span> apps.</h1>
+        <p class="lead">Fast, affordable, and Nairobi-based. I help clinics, shops, and small businesses go online or solve urgent bugs.</p>
+        
+        <p class="lead" style="font-style: italic; font-weight: 500; color: var(--primary-dark);">
+          My specialty is taking **mediocre systems and making them brilliant**. If your existing application is slow, clunky, or simply visually unappealing, I transform it into an intuitive, polished, and professional product that users will love.
+        </p>
+        
+        <div class="cta">
+          <a href="https://wa.me/254712154175" class="btn">Message me on WhatsApp</a>
+          <a href="mailto:pascalouma54@gmail.com" class="btn ghost">Email me</a>
+        </div>
+      </div>
+      
+      <div class="profile-image" id="profile-image">
+        <img src="me.jpg" alt="Pascal Ouma - Django & React Developer">
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="services">
+      <h2>Software & Development Services</h2>
+      
+      <div class="service-card-container">
+        <div class="service-card">
+          <h3>Urgent Bug Fixes</h3>
+          <p>Fix critical React or Django bugs and production issues with same-day turnaround.</p>
+          <div class="price-range">from <strong>KSh 2,500</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Small Business Websites</h3>
+          <p>Professional, mobile-responsive websites for startups and local businesses.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong></div>
+        </div>
+        
+        <div class="service-card">
+          <h3>POS & Inventory Systems</h3>
+          <p>Custom Appointment, billing, and inventory management systems for retail or service industry.</p>
+          <div class="price-range">from <strong>KSh 15,000</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>HRM Systems (HR)</h3>
+          <p>Custom Human Resource Management (HRM) software for payroll, leave, and performance tracking.</p>
+          <div class="price-range">from <strong>KSh 20,000</strong> (Basic)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Clinical Outpatient EMR</h3>
+          <p>Specialized management systems for clinics, covering patient records and prescriptions.</p>
+          <div class="price-range">from <strong>KSh 60,000</strong> (Custom)</div>
+        </div>
+
+        <div class="service-card">
+          <h3>Rental Management</h3>
+          <p>Software for landlords or agencies to track tenants, payments, and property maintenance.</p>
+          <div class="price-range">from <strong>KSh 5,000/month</strong></div>
+        </div>
+
+        <div class="service-card">
+          <h3>Slaughterhouse Systems</h3>
+          <p>Full lifecycle management, controlling breeders, buyers, sellers, and dynamic pricing.</p>
+          <div class="price-range">from <strong>KSh 50,000</strong> (Custom)</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>API Integration</h3>
+          <p>Expert development and integration of APIs, including M-Pesa/payment gateways.</p>
+          <div class="price-range">from <strong>KSh 10,000</strong> per integration</div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Website Maintenance</h3>
+          <p>Ongoing maintenance, optimization, and security updates for Django/React applications.</p>
+          <div class="price-range">from <strong>KSh 2,500/month</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Clinic Appointment & Billing</h3>
+          <p>Django backend + React frontend. Appointment booking, prescriptions, and billing dashboard.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Billing</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Inventory & Procurement</h3>
+          <p>Simple inventory management with stock alerts and procurement requests.</p>
+          <div class="tags">
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Inventory</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Small Business Website</h3>
+          <p>Static site with contact form and services page — fast delivery for local businesses.</p>
+          <div class="tags">
+            <span class="tag">Website</span>
+            <span class="tag">Contact Form</span>
+            <span class="tag">Responsive</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i>📱</i>
+          <div>
+            <h3>WhatsApp</h3>
+            <p><a href="https://wa.me/254712154175">+254 712154175</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>✉️</i>
+          <div>
+            <h3>Email</h3>
+            <p><a href="mailto:pascalouma54@gmail.com">pascalouma54@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i>💻</i>
+          <div>
+            <h3>GitHub</h3>
+            <p><a href="https://github.com/pascal-owilly">github.com/pascal-owilly</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>Built by Pascal Ouma • Available for hire — DM on WhatsApp</p>
+  </footer>
+
+  <script>
+    // ----------------------------------
+    // 1. Floating Particles
+    // ----------------------------------
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 10 + 5;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // ----------------------------------
+    // 2. Parallax Effect & Scroll Animations
+    // ----------------------------------
+    function handleScrollAnimations() {
+      const header = document.getElementById('header');
+      const sections = document.querySelectorAll('section');
+      const serviceCards = document.querySelectorAll('.service-card');
+      const projectCards = document.querySelectorAll('.card');
+      const contactItems = document.querySelectorAll('.contact-item');
+      
+      const heroContent = document.getElementById('hero-content');
+      const profileImage = document.getElementById('profile-image');
+      
+      const scrollY = window.scrollY;
+
+      // Header scroll effect
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      // Hero Parallax Effect
+      if (scrollY < 500) { // Limit parallax depth
+          // Content moves slowly up (slower than background)
+          const contentMove = scrollY * 0.3;
+          heroContent.style.setProperty('--parallax-y', `-${contentMove}px`);
+          
+          // Image moves slightly faster (simulating depth)
+          const imageMove = scrollY * 0.5;
+          profileImage.style.setProperty('--parallax-y', `-${imageMove}px`);
+      } else {
+          heroContent.style.setProperty('--parallax-y', '0px');
+          profileImage.style.setProperty('--parallax-y', '0px');
+      }
+      
+      // Section Fade-In Animations
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        // Check if section is in the viewport (85% visibility trigger)
+        if (sectionTop < windowHeight * 0.85) {
+          const heading = section.querySelector('h2');
+          if (heading) {
+            heading.classList.add('visible');
+          }
+          
+          // Animate service cards
+          if (section.id === 'services') {
+            serviceCards.forEach((card, index) => {
+              if (!card.classList.contains('visible')) {
+                setTimeout(() => {
+                  card.classList.add('visible');
+                }, index * 100);
+              }
+            });
+          }
+          
+          // Animate project cards
+          if (section.id === 'projects') {
+            projectCards.forEach((card, index) => {
+              if (!card.classList.contains('visible')) {
+                setTimeout(() => {
+                  card.classList.add('visible');
+                }, index * 150);
+              }
+            });
+          }
+          
+          // Animate contact items
+          if (section.id === 'contact') {
+            contactItems.forEach((item, index) => {
+              if (!item.classList.contains('visible')) {
+                setTimeout(() => {
+                  item.classList.add('visible');
+                }, index * 200);
+              }
+            });
+          }
+        }
+      });
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      window.addEventListener('scroll', handleScrollAnimations);
+      handleScrollAnimations(); // Run once on load to position parallax and trigger visible elements
+    });
+  </script>
+</body>
+</html>
